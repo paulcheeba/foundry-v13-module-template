@@ -1,0 +1,73 @@
+name: Pre-Release
+
+on:
+  push:
+    branches:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.2.3.4)'
+        required: true
+        type: string
+
+jobs:
+  pre-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Determine version
+      id: version
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "VERSION=${{ inputs.version }}" >> $GITHUB_OUTPUT
+        else
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          echo "VERSION=${BRANCH_NAME}" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Update module.json version
+      run: |
+        sed -i 's/"version": "[^"]*"/"version": "${{ steps.version.outputs.VERSION }}"/' module.json
+        
+    - name: Update file headers
+      run: |
+        VERSION="${{ steps.version.outputs.VERSION }}"
+        find . -name "*.js" -o -name "*.css" -o -name "*.hbs" | xargs sed -i "s/- v[0-9]\+\.[0-9]\+\.[0-9]\+\(\.[0-9]\+\)\?/- v${VERSION}/g"
+        
+    - name: Create Pre-Release ZIP
+      run: |
+        zip -r module-pre.zip . -x "*.git*" "*.github*" "node_modules/*" "*.md" "*.txt"
+        
+    - name: Create Pre-Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: pre-${{ steps.version.outputs.VERSION }}
+        name: Pre-Release ${{ steps.version.outputs.VERSION }}
+        files: |
+          module.json
+          module-pre.zip
+        body: |
+          **Pre-Release Version ${{ steps.version.outputs.VERSION }}**
+          
+          ⚠️ **This is a pre-release version for testing purposes**
+          
+          This pre-release includes:
+          - Latest development changes
+          - May contain experimental features
+          - Compatible with Foundry VTT v11-v13
+          
+          ## Installation
+          
+          **Manifest URL:** `https://github.com/${{ github.repository }}/releases/download/pre-${{ steps.version.outputs.VERSION }}/module.json`
+          
+          ## Testing
+          
+          Please test thoroughly and report any issues in the [Issues](../../issues) section.
+        draft: false
+        prerelease: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,44 @@
+{{!-- My Foundry Module - v1.0.0 --}}
+{{!-- Application V1 Template --}}
+
+<form class="my-module-form">
+  <div class="form-group">
+    <label for="example-input">Example Input:</label>
+    <input type="text" id="example-input" name="exampleInput" placeholder="Enter some text..." />
+  </div>
+
+  <div class="form-group">
+    <label for="example-select">Example Select:</label>
+    <select id="example-select" name="exampleSelect">
+      <option value="">Choose an option...</option>
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="example-textarea">Example Textarea:</label>
+    <textarea id="example-textarea" name="exampleTextarea" rows="4" placeholder="Enter a longer description..."></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>
+      <input type="checkbox" name="exampleCheckbox" />
+      Example Checkbox
+    </label>
+  </div>
+
+  <div class="separator"></div>
+
+  <div class="text-muted text-center">
+    This is a template for your Foundry VTT module using Application V1.
+    Customize this template to fit your module's needs.
+  </div>
+
+  <div class="button-container">
+    <button type="button" class="my-button primary">Action Button</button>
+    <button type="submit" class="primary">Save</button>
+    <button type="button" onclick="this.closest('.app').querySelector('.close').click()">Cancel</button>
+  </div>
+</form>

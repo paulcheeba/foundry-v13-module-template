@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Extract version from tag
+      id: version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      
+    - name: Update module.json version
+      run: |
+        sed -i 's/"version": "[^"]*"/"version": "${{ steps.version.outputs.VERSION }}"/' module.json
+        
+    - name: Create Release ZIP
+      run: |
+        zip -r module.zip . -x "*.git*" "*.github*" "node_modules/*" "*.md" "*.txt"
+        
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          module.json
+          module.zip
+        body: |
+          **Version ${{ steps.version.outputs.VERSION }}**
+          
+          This release includes:
+          - Updated module files
+          - Compatible with Foundry VTT v11-v13
+          
+          ## Installation
+          
+          **Manifest URL:** `https://github.com/${{ github.repository }}/releases/latest/download/module.json`
+          
+          Copy the manifest URL above and paste it into the "Install Module" dialog in Foundry VTT.
+          
+          ## Changelog
+          
+          See [CHANGELOG.md](CHANGELOG.md) for detailed changes.
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

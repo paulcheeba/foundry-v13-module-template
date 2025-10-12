@@ -1,0 +1,40 @@
+name: Foundry Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  foundry-release:
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.release.prerelease }}
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Get release info
+      id: release
+      run: |
+        echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        echo "DOWNLOAD_URL=https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.zip" >> $GITHUB_OUTPUT
+        
+    - name: Update manifest URLs
+      run: |
+        sed -i 's|"manifest": "[^"]*"|"manifest": "https://github.com/${{ github.repository }}/releases/latest/download/module.json"|' module.json
+        sed -i 's|"download": "[^"]*"|"download": "${{ steps.release.outputs.DOWNLOAD_URL }}"|' module.json
+        
+    - name: Upload updated manifest
+      uses: softprops/action-gh-release@v1
+      with:
+        files: module.json
+        tag_name: ${{ github.event.release.tag_name }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    # Uncomment and configure the following step if you want to auto-submit to Foundry VTT
+    # - name: Submit to Foundry VTT
+    #   run: |
+    #     echo "Auto-submission to Foundry VTT would happen here"
+    #     echo "You can integrate with Foundry's package submission API"
+    #     echo "Manifest URL: https://github.com/${{ github.repository }}/releases/latest/download/module.json"

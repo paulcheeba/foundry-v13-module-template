@@ -1,0 +1,231 @@
+/**
+ * My Foundry Module - v1.0.0
+ * Module Styles
+ * Compatible with Foundry VTT v11-v13
+ */
+
+/* ===========================================
+   Application V1 Styles
+   =========================================== */
+
+.my-module {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-dark);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.my-module .window-header {
+  background: linear-gradient(135deg, var(--color-bg-option) 0%, var(--color-bg) 100%);
+  border-bottom: 1px solid var(--color-border-dark);
+  font-weight: bold;
+}
+
+.my-module .window-content {
+  padding: 15px;
+  background: var(--color-bg);
+}
+
+.my-module .form-group {
+  margin-bottom: 15px;
+}
+
+.my-module label {
+  font-weight: bold;
+  color: var(--color-text-light-primary);
+  margin-bottom: 5px;
+  display: block;
+}
+
+.my-module input,
+.my-module select,
+.my-module textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--color-border-light);
+  border-radius: 4px;
+  background: var(--color-bg-option);
+  color: var(--color-text-light-primary);
+}
+
+.my-module input:focus,
+.my-module select:focus,
+.my-module textarea:focus {
+  outline: none;
+  border-color: var(--color-border-highlight);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.my-module .button-container {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.my-module button {
+  padding: 8px 16px;
+  border: 1px solid var(--color-border-dark);
+  border-radius: 4px;
+  background: var(--color-bg-option);
+  color: var(--color-text-light-primary);
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.my-module button:hover {
+  background: var(--color-bg);
+  border-color: var(--color-border-highlight);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.my-module button:active {
+  transform: translateY(0);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.my-module button.primary {
+  background: var(--color-bg-option);
+  border-color: var(--color-border-highlight);
+}
+
+.my-module button.danger {
+  background: #8b0000;
+  border-color: #ff6b6b;
+  color: white;
+}
+
+.my-module button.danger:hover {
+  background: #a50000;
+}
+
+/* ===========================================
+   Application V2 Styles
+   =========================================== */
+
+.my-module-v2 {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-dark);
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.my-module-v2 .window-header {
+  background: linear-gradient(135deg, var(--color-bg-option) 0%, var(--color-bg) 100%);
+  border-bottom: 2px solid var(--color-border-dark);
+  font-weight: bold;
+  padding: 12px 15px;
+}
+
+.my-module-v2 .window-content {
+  padding: 20px;
+  background: var(--color-bg);
+}
+
+.my-module-v2 .form-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid var(--color-border-light);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.my-module-v2 .section-title {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: var(--color-text-light-primary);
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: 5px;
+}
+
+/* ===========================================
+   Toolbar Integration
+   =========================================== */
+
+.my-module-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border-dark);
+  border-radius: 4px;
+  background: var(--color-bg-option);
+  color: var(--color-text-light-primary);
+  text-decoration: none;
+  margin-left: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.my-module-toolbar-btn:hover {
+  background: var(--color-bg);
+  border-color: var(--color-border-highlight);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.my-module-toolbar-btn i {
+  font-size: 14px;
+}
+
+/* ===========================================
+   Responsive Design
+   =========================================== */
+
+@media (max-width: 768px) {
+  .my-module,
+  .my-module-v2 {
+    width: 95vw !important;
+    height: 90vh !important;
+    left: 2.5vw !important;
+    top: 5vh !important;
+  }
+  
+  .my-module .window-content,
+  .my-module-v2 .window-content {
+    padding: 10px;
+  }
+  
+  .my-module .button-container {
+    flex-direction: column;
+  }
+  
+  .my-module button {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+}
+
+/* ===========================================
+   Utility Classes
+   =========================================== */
+
+.my-module .text-center {
+  text-align: center;
+}
+
+.my-module .text-muted {
+  color: var(--color-text-light-secondary);
+  font-size: 0.9em;
+}
+
+.my-module .separator {
+  height: 1px;
+  background: var(--color-border-light);
+  margin: 15px 0;
+}
+
+.my-module .loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.my-module .hidden {
+  display: none !important;
+}
